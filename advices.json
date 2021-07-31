@@ -1,0 +1,46 @@
+{
+    "diet" :{
+        "type_2":{
+            "diet_chart":{
+                "morning":[
+                    "A cup of coffee/tea/buttermilk",
+                    "A bowl of savoury dalia with vegetables./muesli",
+                    "Wheat flakes with milk",
+                    "Vegetable moong dal chila",
+                    "Vegetable oats/upma",
+                    "2 slices of whole wheat bread + egg white omelette and veggies"
+                ],
+                "mid_morning":[
+                    "A cup of green tea with a handful of roasted chana",
+                    "A whole fruit (pear, apple, orange, papaya, guava)"
+                ],
+                "lunch":[
+                    "1 big bowl of seasonal vegetables, 1 bowl of dal/kale chane/sprouts/ chicken/fish, with 2-3 rotis and salad",
+                    "1 big bowl of vegetable oats with curd",
+                    "1 bowl of salad (cucumber/tomato) with half a bowl of brown rice, 1 bowl of vegetables and 1 bowl of dal/sprouts/ chicken/fish",
+                ],
+                "evening snacks":[
+                    "1 whole fruit (apple/guava/pear/orange/papaya)",
+                    "A handful of roasted/boiled chana",
+                    "Puffed rice with cucumber, tomato, green peas, onion and coriander",
+                    "Khakhra",
+                    "Buttermilk (no sugar or salt)",
+                    "Sandwich (avoid butter, cheese or mayonnaise)"
+                ],
+                "dinner":[
+                    "1 bowl of Saag-mustard greens/Spinach/Bathua /green soya/green chana/soya chunks/chicken/fish and 1 bowl of seasonal vegetables with 2-3 Rotis, sprouts, and salad.",
+                    "1 big bowl of vegetable oats with soup.",
+                    "1 bowl of salad with multigrain roti and 1 bowl of dal/sprouts/ chicken/fish."
+                ]
+            },
+            "avoidable":[
+                ""
+            ]
+        },
+        "type_1":{
+            "diet_chart": {
+                
+            }
+        }
+    } 
+}

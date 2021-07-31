@@ -79,19 +79,19 @@ def signup():
         password2 = request.form.get("password2")
         if user=="" and email=="" and password1=="" and password2=="":
             message = 'All feilds required'
-            return render_template('index.html', message=message)
+            return render_template('signup.html', message=message)
         else:
-            user_found = records.find_one({"name": user})
+            # user_found = records.find_one({"name": user})
             email_found = records.find_one({"email": email})
-            if user_found:
-                message = 'There already is a user by that name'
-                return render_template('index.html', message=message)
-            elif  email_found:
+            # if user_found:
+            #     message = 'There already is a user by that name'
+            #     return render_template('signup.html', message=message)
+            if  email_found:
                 message = 'This email already exists'
-                return render_template('index.html', message=message)
+                return render_template('signup.html', message=message)
             elif  password1 != password2:
                 message = 'Passwords should match!'
-                return render_template('index.html', message=message)
+                return render_template('signup.html', message=message)
             else:
                 hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
                 user_input = {'name': user, 'email': email, 'password': hashed}
