@@ -28,6 +28,9 @@ def dashboard():
 def about():
     return render_template('about.html')
 
+@app.route("/form")
+def form():
+    return render_template('vitals_form.html')
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
