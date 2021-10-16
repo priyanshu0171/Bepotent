@@ -30,7 +30,21 @@ def about():
 
 @app.route("/form")
 def form():
-    return render_template('vitals_form.html')
+    @app.route("/form",methods=['post', 'get'])
+def form():
+     if "email" in session:
+        if request.method == "POST":
+            sl=request.form.get("sl")
+            height=request.form.get("height")
+            weight=request.form.get("weight")
+            age=request.form.get("age")
+            slList= [{"sl":sl}]
+            input={"height":height,"weight":weight,"age":age,"slList":slList}
+            email = session.get('email')
+            records.update( {"email":email},{"$set":input},upsert=True)
+     else:
+            return render_template('index.html')
+     return render_template('vitals_form.html')
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
