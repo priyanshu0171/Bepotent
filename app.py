@@ -4,6 +4,7 @@ from flask import Flask, render_template,request,redirect, url_for, session
 import pickle
 import pymongo
 import bcrypt
+import time
 #Initialize the flask App
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
@@ -16,21 +17,44 @@ records = db.register
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    if "email" in session:
+        message = "logged in"
+        return render_template("dashboard.html", message=message)
 
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template('dashboard.html')
+    if "email" in session:
+        email = session.get("email") 
+        rec_mail = records.find_one({"email": email})       # fetching Data
+    return render_template('dashboard.html', details=rec_mail)
 
 
 @app.route("/about")
 def about():
     return render_template('about.html')
 
-@app.route("/form")
+
+
+@app.route("/form",methods=['post', 'get'])
 def form():
-    return render_template('vitals_form.html')
+    if "email" in session:
+        if request.method == "POST":
+            sl=request.form.get("sl")
+            height=request.form.get("height")
+            weight=request.form.get("weight")
+            age=request.form.get("age")
+            slList= [{"sl":sl}]
+            input={"height":height,"weight":weight,"age":age,"slList":slList}
+            email = session.get('email')
+            records.update( {"email":email},{"$set":input},upsert=True)
+           
+        else:
+            return render_template('index.html')        
+        return render_template('vitals_form.html')
+    
+
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -38,8 +62,9 @@ def login():
     message = ''
    
     if "email" in session:
-      
-        return redirect(url_for("home"))
+        message = "logged in"
+        # print("Jai ho")
+        return render_template("index.html", message=message)
 
     if request.method == "POST":
         email = request.form.get("email")
@@ -56,7 +81,8 @@ def login():
                 return redirect(url_for('home'))
             else:
                 if "email" in session:
-                    flash("logged in")
+                    time.sleep(2)
+                    message = "logged in"
                     return redirect(url_for("home"))
                     
                 message = 'Wrong password'
@@ -148,7 +174,10 @@ def predict():
     print(text)
     return render_template("predictor.html", prediction_text = text, prediction=prediction)
 
-
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
