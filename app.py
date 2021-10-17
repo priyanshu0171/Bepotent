@@ -17,18 +17,28 @@ records = db.register
 
 @app.route("/")
 def home():
+
     if 'email' in request.cookies:
         message = "logged in"
         return redirect(url_for("dashboard"))
     else:
         return render_template("index.html")
 
+=======
+    if "email" in session:
+        message = "logged in"
+        return render_template("dashboard.html", message=message)
+
 
 
 @app.route("/dashboard")
 def dashboard():
+
     if 'email' in request.cookies:
         email = request.cookies.get("email") 
+=======
+    if "email" in session:
+        email = session.get("email") 
         rec_mail = records.find_one({"email": email})       # fetching Data
     return render_template('dashboard.html', details=rec_mail)
 
@@ -41,7 +51,11 @@ def about():
 
 @app.route("/form",methods=['post', 'get'])
 def form():
+
     if 'email' in request.cookies:
+=======
+    if "email" in session:
+
         if request.method == "POST":
             sl=request.form.get("sl")
             height=request.form.get("height")
@@ -49,7 +63,10 @@ def form():
             age=request.form.get("age")
             slList= [{"sl":sl}]
             input={"height":height,"weight":weight,"age":age,"slList":slList}
+
             email = request.cookies.get('email')
+=======
+            email = session.get('email')
             records.update( {"email":email},{"$set":input},upsert=True)
            
         else:
@@ -64,10 +81,17 @@ def login():
 
     message = ''
    
+
     if 'email' in request.cookies:
         message = "logged in"
         # print("Jai ho")
         return redirect(url_for("dashboard"))
+
+    if "email" in session:
+        message = "logged in"
+        # print("Jai ho")
+        return render_template("index.html", message=message)
+
 
     if request.method == "POST":
         email = request.form.get("email")
@@ -84,10 +108,16 @@ def login():
                 resp.set_cookie('email',email_val, max_age=90 * 60 * 60 * 24) 
                 return resp
             else:
+
                 if 'email' in request.cookies:
                     # time.sleep(2)
                     message = "logged in"
                     return redirect(url_for("dashboard"))
+
+                if "email" in session:
+                    time.sleep(2)
+                    message = "logged in"
+                    return redirect(url_for("home"))
                     
                 message = 'Wrong password'
                 return render_template('login.html', message=message)
@@ -180,9 +210,14 @@ def predict():
 
 @app.route('/logout')
 def logout():
+
    resp = make_response(redirect(url_for("dashboard")))  
    resp.set_cookie('email','', expires=0) 
    return resp
+
+    session.clear()
+    return render_template("index.html")
+
 
 
 if __name__ == "__main__":
