@@ -185,21 +185,7 @@ def logout():
    resp.set_cookie('email','', expires=0) 
    return resp
 
-@app.route('/hello')
-def hello():
 
-    url = "https://food-nutrition-information.p.rapidapi.com/foods/search"
-
-    querystring = {"query":"cheese","pageSize":"1","pageNumber":"1","brandOwner":"Kar Nut Products Company"}
-
-    headers = {
-        'x-rapidapi-host': "food-nutrition-information.p.rapidapi.com",
-        'x-rapidapi-key': "975340b8a9msh4432cb463ed189bp1ad0bcjsn1736a88155ef"
-        }
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    print(response.text)
 
 if __name__ == "__main__":
     app.run(debug=True)
