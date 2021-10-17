@@ -180,8 +180,9 @@ def predict():
 
 @app.route('/logout')
 def logout():
-    session.clear()
-    return render_template("index.html")
+   resp = make_response(redirect(url_for("dashboard")))  
+   resp.set_cookie('email','', expires=0) 
+   return resp
 
 
 if __name__ == "__main__":
