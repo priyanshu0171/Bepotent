@@ -28,10 +28,12 @@ def home():
 
 @app.route("/dashboard")
 def dashboard():
-    if 'email' in request.cookies:
+    if 'email' in request.cookies and 'email' != '':
         email = request.cookies.get("email") 
         rec_mail = records.find_one({"email": email})       # fetching Data
-    return render_template('dashboard.html', details=rec_mail)
+        return render_template('dashboard.html', details=rec_mail)
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route("/about")
@@ -42,7 +44,7 @@ def about():
 
 @app.route("/form",methods=['post', 'get'])
 def form():
-    if 'email' in request.cookies:
+    if 'email' in request.cookies and 'email' != '':
         if request.method == "POST":
             sl=request.form.get("sl")
             height=request.form.get("height")
@@ -65,9 +67,8 @@ def login():
 
     message = ''
    
-    if 'email' in request.cookies:
+    if 'email' in request.cookies and 'email' != '':
         message = "logged in"
-        # print("Jai ho")
         return redirect(url_for("dashboard"))
 
     if request.method == "POST":
@@ -85,8 +86,7 @@ def login():
                 resp.set_cookie('email',email_val, max_age=90 * 60 * 60 * 24) 
                 return resp
             else:
-                if 'email' in request.cookies:
-                    # time.sleep(2)
+                if 'email' in request.cookies and 'email' != '':
                     message = "logged in"
                     return redirect(url_for("dashboard"))
                      
@@ -103,7 +103,7 @@ def signup():
 
     message = ''
 
-    if 'email' in request.cookies:
+    if 'email' in request.cookies and 'email' != '':
         return redirect(url_for("home"))
     if request.method == "POST":
         user = request.form.get("name")
@@ -115,11 +115,9 @@ def signup():
             message = 'All feilds required'
             return render_template('signup.html', message=message)
         else:
-            # user_found = records.find_one({"name": user})
+
             email_found = records.find_one({"email": email})
-            # if user_found:
-            #     message = 'There already is a user by that name'
-            #     return render_template('signup.html', message=message)
+
             if  email_found:
                 message = 'This email already exists'
                 return render_template('signup.html', message=message)
@@ -144,8 +142,7 @@ def predictor():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-# HTML for GUI rendering
-   # For rendering results on HTML GUI
+
     prg = request.form['prg']
     glc = request.form['glc']
     bp = request.form['bp']
@@ -163,7 +160,7 @@ def predict():
     bmi = float(bmi)
     dpf = float(dpf)
     age = int(age)
-#   int_features = [int(x) for x in request.form.values()]
+
     final_features = np.array([(prg, glc, bp, skt, ins, bmi, dpf, age)])
     sc=pickle.load(open('scaler.sav','rb'))
     final_features=sc.transform(final_features)

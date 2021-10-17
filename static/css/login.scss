@@ -1,0 +1,17 @@
+@import 'style';
+
+*{
+    overflow-y: hidden;
+}
+form{
+
+    width: 60%;
+}
+.form-col{
+    width: 50%;
+    position: relative;
+    bottom: 30px !important;
+    flex-direction: column;
+    padding-left: 5%;
+
+}

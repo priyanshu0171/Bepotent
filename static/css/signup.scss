@@ -1,0 +1,20 @@
+@import 'style';
+
+*{
+    overflow-y: hidden !important;
+}
+.bg-dark{
+    background-color: #40514e !important;
+    background: var(--secondary-color) !important;
+}
+.form-col{
+    width: 50%;
+    position: relative;
+    bottom: 30px !important;
+    flex-direction: column;
+    padding-left: 5%;
+
+}
+form{
+    width: 60%;
+}
