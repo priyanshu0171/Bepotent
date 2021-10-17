@@ -1,9 +1,10 @@
 #import libraries
 import numpy as np
-from flask import Flask, render_template,request,redirect, url_for, session
+from flask import Flask, render_template,request,redirect, url_for,request,make_response
 import pickle
 import pymongo
 import bcrypt
+import time
 #Initialize the flask App
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
@@ -16,23 +17,31 @@ records = db.register
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    if 'email' in request.cookies:
+        message = "logged in"
+        return redirect(url_for("dashboard"))
+    else:
+        return render_template("index.html")
+
 
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template('dashboard.html')
+    if 'email' in request.cookies:
+        email = request.cookies.get("email") 
+        rec_mail = records.find_one({"email": email})       # fetching Data
+    return render_template('dashboard.html', details=rec_mail)
 
 
 @app.route("/about")
 def about():
     return render_template('about.html')
 
-@app.route("/form")
+
+
+@app.route("/form",methods=['post', 'get'])
 def form():
-    @app.route("/form",methods=['post', 'get'])
-def form():
-     if "email" in session:
+    if 'email' in request.cookies:
         if request.method == "POST":
             sl=request.form.get("sl")
             height=request.form.get("height")
@@ -40,20 +49,25 @@ def form():
             age=request.form.get("age")
             slList= [{"sl":sl}]
             input={"height":height,"weight":weight,"age":age,"slList":slList}
-            email = session.get('email')
+            email = request.cookies.get('email')
             records.update( {"email":email},{"$set":input},upsert=True)
-     else:
-            return render_template('index.html')
-     return render_template('vitals_form.html')
+           
+        else:
+            return render_template('index.html')        
+        return render_template('vitals_form.html')
+    
+
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
 
     message = ''
    
-    if "email" in session:
-      
-        return redirect(url_for("home"))
+    if 'email' in request.cookies:
+        message = "logged in"
+        # print("Jai ho")
+        return redirect(url_for("dashboard"))
 
     if request.method == "POST":
         email = request.form.get("email")
@@ -66,12 +80,14 @@ def login():
             passwordcheck = email_found['password']
             
             if bcrypt.checkpw(password.encode('utf-8'), passwordcheck):
-                session["email"] = email_val
-                return redirect(url_for('home'))
+                resp = make_response(redirect(url_for("dashboard")))  
+                resp.set_cookie('email',email_val, max_age=90 * 60 * 60 * 24) 
+                return resp
             else:
-                if "email" in session:
-                    flash("logged in")
-                    return redirect(url_for("home"))
+                if 'email' in request.cookies:
+                    # time.sleep(2)
+                    message = "logged in"
+                    return redirect(url_for("dashboard"))
                     
                 message = 'Wrong password'
                 return render_template('login.html', message=message)
@@ -86,7 +102,7 @@ def signup():
 
     message = ''
 
-    if "email" in session:
+    if 'email' in request.cookies:
         return redirect(url_for("home"))
     if request.method == "POST":
         user = request.form.get("name")
@@ -162,7 +178,10 @@ def predict():
     print(text)
     return render_template("predictor.html", prediction_text = text, prediction=prediction)
 
-
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
