@@ -176,11 +176,33 @@ def predict():
     print(text)
     return render_template("predictor.html", prediction_text = text, prediction=prediction)
 
+@app.route('/excercise')
+def excercise():
+    if 'email' in request.cookies and 'email' != '':
+        return redirect(url_for("home"))
+    else:
+        return redirect(url_for("dashboard"))
+        
+@app.route('/dietchart')
+def dietchart():
+    if 'email' in request.cookies and 'email' != '':
+        return redirect(url_for("home"))
+    else:
+        return redirect(url_for("dashboard"))
+
+@app.route('/reports')
+def reports():
+    if 'email' in request.cookies and 'email' != '':
+        return redirect(url_for("home"))
+    else:
+        return redirect(url_for("dashboard"))
+
 @app.route('/logout')
 def logout():
    resp = make_response(redirect(url_for("dashboard")))  
    resp.set_cookie('email','', expires=0) 
    return resp
+
 
 
 
