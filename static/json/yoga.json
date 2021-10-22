@@ -1,0 +1,39 @@
+{
+    "Yoga" : {
+        "Kapal Bhati":
+        {
+            "sub_desc":"Skull Shining breathing technique",
+            "desc": "This yogic breathing exercise seeks to rid your body of harmful toxins. In fact, 'Kapal' means 'forehead' and 'bhati' denotes 'shining'. So, according to yoga experts, kapalbhati is something that ensures a 'shining forehead', a symbol of a bright and healthy mind.The known benefits of Kapal Bhati is that it detoxes the lungs, clears the nasal track, increases lung capacity and regulates/ smoothens the breath. It energizes the nervous system, rejuvenates the brain cells and stimulates abdominal organs. These are great benefits, isn’t it? The remaining could be supplementary but don’t focus on that. Kindly refrain from practicing numerous rounds with a hope of losing belly fat. Like everything else in life, Kapal Bhati is best when in moderation.",
+            "img_id":"KapalhBhati.jpg",
+            "duration":"5 min"
+        },
+        "Dhanurasana":
+        {
+            "sub_desc":"Bow Pose",
+            "desc": "Dhanurasana – It improves the functioning of pancreas and intestines. Thus, it helps in regulating the blood sugar levels to a vast extent.This body posture of this is named after the shape it takes-that of a bow. Dhanurasana is also sometimes linked with upward wheel pose or Urdhva Chakrasana. The Bow or Dhanurasana raises both halves of the body at once, combining the movements of the Cobra and Locust, and countering the Plough and the Forward Bend, same as like an archer stringing a bow. In this you use your hands and arms to pull your trunk and legs up together to form a curve. It tones back muscles and maintains the  elasticity of spine, improving posture and increasing vitality.",
+            "img_id":"Dahnurasana.jpg",
+            "duration":"5 min"
+        },
+        "Paschimottasana":
+        {
+            "sub_desc":"Skull Shining breathing technique",
+            "desc":"Paschimottanasana (forward bend) is a simple and traditional Hatha Yoga Asana. That has many tremendous health benefits. The Forward bend covers up whole systems in your body along with very beneficial for growing kids to increase their height. Those People who are suffering from High B.P. or diabetes get awesome health benefits from Paschimottanasana. The Uniqueness of the Forward bend is that it stretches your whole body. The front body part of our body is known as the East, as well as the back part is termed as West. So, Paschimottanasana basically focuses on your back part of the body. Thus this Asana is named so and Seated forward bend is also know as Intense Forward Bend.",
+            "img_id":"Paschimottasana.jpeg",
+            "duration":"5 min"
+        },
+        "Shavasana":
+        {
+            "sub_desc":"Corpse Pose",
+            "desc":"The Sanskrit word ‘shava‘ means ‘corpse‘. This pose looks like sleeping pose. It is very simple and everyone can do this asana. But friends this pose needs lots of concentration. You have to concentrate on each part of the body. Beneficial for improving concentration, curing insomnia, calming mind, releasing stress, fatigue and depression. Excellent asana for stimulating blood circulation.Beneficial for those suffering from neurological problem, asthma, constipation, diabetes, indigestion.While practicing shavasana, if you feel drowsy or sleepy you can breathe a bit faster and deeper.",
+            "img_id":"Shavasana.jfif",
+            "duration":"5 min"
+        },
+        "Ardhmatsayendrasana":
+        {
+            "sub_desc":"Sitting half spinal twist",
+            "desc":"In this position there is a strong twist on the spine and abdomen. The right arm is pressed against the left knee and the left arm is wrapped behind the back, leading to an increased twist on the body. The chest is open and the spine is erect. One side of the abdomen is compressed and the other side is stretched. The right leg and knee remains on the floor. The left knee should be close to the right armpit.Increases the elasticity of the spine, tones the spinal nerves and improves the functioning of the spinal cord.",
+            "img_id":"Ardhmatsayendrasana.jpg",
+            "duration":"5 min"
+        }
+    }
+}
