@@ -5,7 +5,7 @@ import requests
 import pickle
 import pymongo
 import bcrypt
-import time
+import datetime
 #Initialize the flask App
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
@@ -31,7 +31,9 @@ def dashboard():
     if 'email' in request.cookies and 'email' != '':
         email = request.cookies.get("email") 
         rec_mail = records.find_one({"email": email})       # fetching Data
-        return render_template('dashboard.html', details=rec_mail)
+        # current Year
+        curryear = datetime.datetime.now().strftime("%Y")
+        return render_template('dashboard.html', details=rec_mail, year=curryear)
     else:
         return redirect(url_for('home'))
 
