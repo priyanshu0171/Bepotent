@@ -139,21 +139,30 @@ def signup():
 @app.route('/excercise')
 def excercise():
     if 'email' in request.cookies and 'email' != '':
-        return redirect(url_for("home"))
+        email = request.cookies.get("email") 
+        rec_mail = records.find_one({"email": email}) 
+        return render_template('yoga.html', details=rec_mail)
     else:
         return redirect(url_for("dashboard"))
         
 @app.route('/dietchart')
 def dietchart():
     if 'email' in request.cookies and 'email' != '':
-        return redirect(url_for("home"))
+        return render_template('diet.html')
     else:
         return redirect(url_for("dashboard"))
 
-@app.route('/reports')
+@app.route('/rest')
+def rest():
+    if 'email' in request.cookies and 'email' != '':
+        return render_template('rest.html')
+    else:
+        return redirect(url_for("dashboard"))
+
+@app.route('/stats')
 def reports():
     if 'email' in request.cookies and 'email' != '':
-        return redirect(url_for("home"))
+        return render_template('stats.html')
     else:
         return redirect(url_for("dashboard"))
 
