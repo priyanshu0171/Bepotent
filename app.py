@@ -22,14 +22,26 @@ def home():
     else:
         return render_template("index.html")
 
+@app.route("/add",methods=["POST"])
+def add():
+      if request.method == "POST":
+          sl=request.form.get("sl")
+          print(sl)
+          email = request.cookies.get("email") 
+          today = datetime.date.today().strftime("%B %d, %Y")
+          records.update( {"email":email},{"$push":{"slList":sl,"date":today}},upsert=True)
 
+          return redirect(url_for("dashboard"))
 
 @app.route("/dashboard")
 def dashboard():
+    
     if 'email' in request.cookies and 'email' != '':
         email = request.cookies.get("email") 
         rec_mail = records.find_one({"email": email})       # fetching Data
         # current Year
+      
+
         curryear = datetime.datetime.now().strftime("%Y")
         return render_template('dashboard.html', details=rec_mail, year=curryear)
     else:
@@ -47,11 +59,13 @@ def form():
     if 'email' in request.cookies and 'email' != '':
         if request.method == "POST":
             sl=request.form.get("sl")
-            height=request.form.get("height")
+            height=request.form("height")
             weight=request.form.get("weight")
             age=request.form.get("age")
-            slList= [{"sl":sl}]
-            input={"height":height,"weight":weight,"age":age,"slList":slList}
+            slList= [sl]
+            today = datetime.date.today().strftime("%B %d, %Y")
+            date=[today]
+            input={"height":height,"weight":weight,"age":age,"slList":slList,"date":date}
             email = request.cookies.get('email')
             records.update( {"email":email},{"$set":input},upsert=True)
            
@@ -159,12 +173,6 @@ def rest():
     else:
         return redirect(url_for("dashboard"))
 
-@app.route('/stats')
-def reports():
-    if 'email' in request.cookies and 'email' != '':
-        return render_template('stats.html')
-    else:
-        return redirect(url_for("dashboard"))
 
 @app.route('/logout')
 def logout():
@@ -172,7 +180,22 @@ def logout():
    resp.set_cookie('email','', expires=0) 
    return resp
 
+@app.route("/stats")
+def stats():
+    if 'email' in request.cookies:
+        email = request.cookies.get("email") 
+        rec_mail = records.find_one({"email": email}) 
+        months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        count=0;test_list=[];
+        for i in months:
+            for j in rec_mail["date"]:
+                if i in j:
+                    count+=1
+            test_list.append(count)
+            count=0
+        print(test_list)
 
+        return render_template('stats.html',details=rec_mail,test_list=test_list,months=months)
 
 
 if __name__ == "__main__":

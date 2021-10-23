@@ -11,12 +11,14 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
 		integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<title>Dashboard</title>
 
 </head>
 
 <body>
 	{%block body%}
+	
 	<div class="d-flex">
 		<div class="navigation" id="sideNavigation">
 			<div class="text-center card border-0 p-0 m-0" style="background: transparent;">
@@ -123,8 +125,11 @@
 							<h4>{{year}}</h4>
 						</div>
 						<!-- Dummy Graph May not load -->
-						<iframe width="100%" height="500" scrolling="no" src="https://public.domo.com/cards/dwoBJ"
-							frameBorder="0"></iframe>
+						<div class="text-center">
+						<div class="container mt-5 ">
+							<canvas id="myChart" style="width:100%;max-width:600px;display:inline-block"></canvas>
+						</div>
+					</div>
 					</div>
 				</div>
 				<div class="container-fluid links-container mt-4 px-2">
@@ -159,12 +164,12 @@
 						</div>
 						<div class="col">
 							<div class="card">
-								<form action="post">
+								<form method="post" action="/add">
 									<div class="form-floating my-3 mt-5 container">
 										<input name="sl" type="text" class="form-control" style="border-radius:10px;"
-										  placeholder="text" autocomplete="off">
+											placeholder="text" autocomplete="off">
 										<label class="ms-4">Sugar Level</label>
-									  </div>
+									</div>
 									<div class="text-start container">
 										<button class="btn btn-primary btn-sm m-1 mb-5" type="submit">Add</button>
 									</div>
@@ -216,5 +221,53 @@
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous"></script>
 </body>
+
+<script>
+	var xValues = {{ details.date |default("")| tojson}};
+	var yValues = {{ details.slList |default("")| tojson}};
+	console.log(yValues)
+	var barColors = ['rgba(255, 99, 132, 0.2)',
+		'rgba(255, 159, 64, 0.2)',
+		'rgba(255, 205, 86, 0.2)',
+		'rgba(75, 192, 192, 0.2)',
+		'rgba(54, 162, 235, 0.2)',
+		'rgba(153, 102, 255, 0.2)',
+		'rgba(201, 203, 207, 0.2)'];
+
+	new Chart("myChart", {
+		type: "bar",
+		data: {
+			labels: xValues,
+			datasets: [{
+				backgroundColor: barColors,
+				borderColor: [
+					'rgb(255, 99, 132)',
+					'rgb(255, 159, 64)',
+					'rgb(255, 205, 86)',
+					'rgb(75, 192, 192)',
+					'rgb(54, 162, 235)',
+					'rgb(153, 102, 255)',
+					'rgb(201, 203, 207)'
+				],
+				borderWidth: 1,
+				data: yValues
+			}]
+		},
+		options: {
+			legend: { display: false },
+			title: {
+				display: true,
+				text: "Sugar level"
+			},
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			}
+		}
+	});
+</script>
 
 </html>
